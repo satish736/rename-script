@@ -1,0 +1,13 @@
+
+
+ansible-playbook
+
+curl http://35.231.104.171.8081/repository/student-snap/com/jdevs/studentapp/maven-metadata.xml | grep SNAPSHOT | sed -e 's/<version>//g' |
+sed -e 's/<\/version>//g'  xargs  xargs -n1 | sort | tail -1
+
+curl http://35.231.104.171.8081/repository/student-snap/com/jdevs/studentapp/maven-metadata.xml | html2text
+
+VER=$(curl http://35.231.104.171.8081/repository/student-snap/com/jdevs/studentapp/maven-metadata.xml | grep SNAPSHOT | sed -e 's/<version>//g' | sed -e 's/<\/version>//g'  xargs | xargs -n1 | sort | tail -1)
+IDNO=$(echo $VER | awk -F - '{print $1F}')
+FINALVER=$(curl http://35.231.104.171.8081/repository/student-snap/com/jdevs/studentapp/maven-metadata.xml | html2text | grep "$IDNO-" | cut -d ']' -f1 | cut -d '[' -f2 | grep -v SNAP | sort | tail -1)
+
